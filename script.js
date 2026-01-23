@@ -1,74 +1,71 @@
-// FAQ Accordion - Versão melhorada
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("Script carregado");
-
+document.addEventListener("DOMContentLoaded", () => {
+  /* =========================
+     FAQ ACCORDION
+  ========================= */
   const faqHeaders = document.querySelectorAll(".faq-header");
-  console.log("Encontrados " + faqHeaders.length + " headers");
 
   faqHeaders.forEach((header) => {
-    header.addEventListener("click", function () {
-      const faqItem = this.closest(".faq-item");
-      const isActive = faqItem.classList.contains("ativo");
+    header.addEventListener("click", () => {
+      const item = header.closest(".faq-item");
+      const isActive = item.classList.contains("active");
 
-      // Fecha todos os abertos
-      document.querySelectorAll(".faq-item").forEach((item) => {
-        item.classList.remove("ativo");
+      document.querySelectorAll(".faq-item").forEach((faq) => {
+        faq.classList.remove("active");
+        const btn = faq.querySelector(".faq-header");
+        if (btn) btn.setAttribute("aria-expanded", "false");
       });
 
-      // Abre o clicado se não estava aberto
       if (!isActive) {
-        faqItem.classList.add("ativo");
+        item.classList.add("active");
+        header.setAttribute("aria-expanded", "true");
       }
     });
   });
-});
 
-// Buttons
-document.addEventListener("DOMContentLoaded", function () {
+  /* =========================
+     BOTÕES EMPRESA (WHATSAPP)
+  ========================= */
   document.querySelectorAll(".btn-empresa").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const empresa = btn.dataset.empresa;
-      window.open(
-        `https://wa.me/5599999999999?text=Olá! Tenho interesse em saber mais sobre ${empresa}.`,
-        "_blank",
-      );
+      const empresa = btn.dataset.empresa || "sua empresa";
+
+      const url = `https://wa.me/55995289436?text=${encodeURIComponent(
+        `Olá! Tenho interesse em saber mais sobre a solução para ${empresa}.`,
+      )}`;
+
+      window.open(url, "_blank");
     });
   });
-});
 
-// Form
-document.addEventListener("DOMContentLoaded", function () {
+  /* =========================
+     FORMULÁRIO DE CONTATO
+  ========================= */
   const formContato = document.querySelector(".contato-form");
+
   if (formContato) {
     formContato.addEventListener("submit", (e) => {
       e.preventDefault();
-      const nome = formContato.querySelector('input[type="text"]').value;
-      const email = formContato.querySelector('input[type="email"]').value;
-      const telefone = formContato.querySelector('input[type="tel"]').value;
-      const empresa =
-        formContato.querySelectorAll('input[type="text"]')[1].value;
-      const mensagem = formContato.querySelector("textarea").value;
 
-      const texto = `Olá! Meu nome é ${nome}.\nEmail: ${email}\nTelefone: ${telefone}\nEmpresa: ${empresa}\nMensagem: ${mensagem}`;
-      window.open(
-        `https://wa.me/5599999999999?text=${encodeURIComponent(texto)}`,
-        "_blank",
-      );
+      const nome = formContato.querySelector('input[name="nome"]')?.value || "";
+      const email =
+        formContato.querySelector('input[name="email"]')?.value || "";
+      const telefone =
+        formContato.querySelector('input[name="telefone"]')?.value || "";
+      const empresa =
+        formContato.querySelector('input[name="empresa"]')?.value || "";
+      const mensagem = formContato.querySelector("textarea")?.value || "";
+
+      const texto = `
+Olá! Meu nome é ${nome}.
+Telefone: ${telefone}
+Empresa: ${empresa}
+
+Mensagem:
+${mensagem}
+      `;
+
+      const url = `https://wa.me/55995289436?text=${encodeURIComponent(texto)}`;
+      window.open(url, "_blank");
     });
   }
-});
-
-document.querySelectorAll(".faq-header").forEach((header) => {
-  header.addEventListener("click", () => {
-    const item = header.parentElement;
-    const isActive = item.classList.contains("active");
-
-    document.querySelectorAll(".faq-item").forEach((faq) => {
-      faq.classList.remove("active");
-    });
-
-    if (!isActive) {
-      item.classList.add("active");
-    }
-  });
 });
