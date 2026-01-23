@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -6,8 +6,13 @@
     <title>UpClick | Soluções Digitais</title>
     <link rel="stylesheet" href="style.css" />
   </head>
+
   <body>
-    <a href="https://wa.me/5599999999999" class="whatsapp-fixo" target="_blank"
+    <a
+      href="https://wa.me/5599999999999"
+      class="whatsapp-fixo"
+      target="_blank"
+      aria-label="Falar no WhatsApp"
       >WhatsApp</a
     >
 
@@ -15,7 +20,8 @@
       <h1>UpClick</h1>
       <nav>
         <a href="#servicos">Serviços</a>
-        <a href="#empresas">Empresas</a>
+        <a href="#trafego-pago">Tráfego Pago</a>
+        <a href="#faq">Dúvidas</a>
         <a href="#sobre">Sobre</a>
         <a href="#contato">Contato</a>
       </nav>
@@ -70,64 +76,170 @@
       </div>
     </section>
 
-    <section class="empresas" id="empresas">
-      <h2>Nossas empresas</h2>
-      <div class="empresas-grid">
-        <div class="empresa-card">
-          <h3>Trivox</h3>
-          <span>Impressão 3D</span>
-          <p>Peças técnicas, protótipos e projetos personalizados.</p>
-          <button data-empresa="Trivox">Contato</button>
+    <section class="trafego-pago" id="trafego-pago">
+      <h2>Tráfego Pago</h2>
+      <div class="trafego-grid">
+        <div class="trafego-card">
+          <h3>Google Ads</h3>
+          <p>Campanhas estratégicas focadas em intenção de compra.</p>
         </div>
-        <div class="empresa-card">
-          <h3>Up Fitness Store</h3>
-          <span>Produtos Fitness</span>
-          <p>Equipamentos e acessórios para alta performance.</p>
-          <button data-empresa="Up Fitness Store">Contato</button>
+        <div class="trafego-card">
+          <h3>Meta Ads</h3>
+          <p>Segmentação precisa em Facebook e Instagram.</p>
         </div>
-        <div class="empresa-card">
-          <h3>Karelle</h3>
-          <span>Confeitaria</span>
-          <p>Doces artesanais para eventos e encomendas.<</p>
+        <div class="trafego-card">
+          <h3>Gestão e Otimização</h3>
+          <p>Monitoramento contínuo e ajustes baseados em dados.</p>
         </div>
       </div>
     </section>
+
+    <section class="faq" id="faq">
+      <h2>Dúvidas Frequentes</h2>
+      <p class="faq-subtitle">Temos as respostas que você precisa</p>
+
+      <div class="faq-container">
+        <div class="faq-item">
+          <button class="faq-header">
+            <span>Como funciona nosso processo?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-content">
+            <p>
+              <strong>1. Diagnóstico Digital:</strong> Análise completa da
+              presença online.
+            </p>
+            <p>
+              <strong>2. Planejamento Estratégico:</strong> Estratégia
+              personalizada.
+            </p>
+            <p>
+              <strong>3. Implementação:</strong> Execução focada em conversão.
+            </p>
+            <p>
+              <strong>4. Monitoramento:</strong> Ajustes contínuos baseados em
+              dados.
+            </p>
+            <p>
+              <strong>5. Relatórios Mensais:</strong> Métricas claras e ROI.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span>Qual é o investimento mínimo?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-content">
+            <p>
+              Não trabalhamos com valores fixos. Cada proposta é ajustada ao
+              tamanho e objetivo do negócio.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span>Em quanto tempo vejo resultados?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-content">
+            <p><strong>Tráfego pago:</strong> Resultados em poucos dias.</p>
+            <p><strong>30–60 dias:</strong> Otimizações iniciais.</p>
+            <p><strong>3–6 meses:</strong> Crescimento orgânico consistente.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span>Vocês trabalham com qualquer tipo de negócio?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-content">
+            <p>
+              Atendemos e-commerce, serviços, produtos físicos, educação, saúde,
+              alimentação e outros segmentos.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-header">
+            <span>Como é o acompanhamento?</span>
+            <span class="faq-icon">▼</span>
+          </button>
+          <div class="faq-content">
+            <p>
+              Relatórios mensais, comunicação direta via WhatsApp e reuniões
+              periódicas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sobre" id="sobre">
+      <h2>Sobre a UpClick</h2>
+      <p class="sobre-texto">
+        A UpClick estrutura negócios para crescimento sustentável através de
+        estratégia digital inteligente.
+      </p>
+    </section>
+
+    <section class="contato" id="contato">
+      <h2>Vamos Conversar?</h2>
+      <form class="contato-form">
+        <input type="text" placeholder="Seu nome" required />
+        <input type="email" placeholder="Seu email" required />
+        <textarea placeholder="Conte sobre seu negócio" rows="4"></textarea>
+        <button type="submit" class="btn-submit">Enviar</button>
+      </form>
+    </section>
+
     <footer class="footer">
       <div class="footer-container">
+        <!-- COLUNA 1 -->
         <div class="footer-col">
           <h3>UpClick</h3>
           <p>
-            Ecossistema de negócios focado em estrutura digital, credibilidade e
-            crescimento sustentável.
+            Estruturamos marcas para crescimento digital através de estratégia,
+            tecnologia e tráfego pago orientado a resultados reais.
           </p>
         </div>
 
+        <!-- COLUNA 2 -->
         <div class="footer-col">
-          <h4>Empresas</h4>
+          <h4>Serviços</h4>
           <ul>
-            <li>Trivox – Impressão 3D</li>
-            <li>Up Fitness Store</li>
-            <li>Karelle Confeitaria</li>
+            <li>Criação de Sites Profissionais</li>
+            <li>Estratégia Digital</li>
+            <li>Tráfego Pago (Google & Meta Ads)</li>
+            <li>Otimização de Conversão</li>
           </ul>
         </div>
 
+        <!-- COLUNA 3 -->
         <div class="footer-col">
           <h4>Navegação</h4>
           <ul>
             <li><a href="#servicos">Serviços</a></li>
-            <li><a href="#empresas">Empresas</a></li>
+            <li><a href="#trafego">Tráfego Pago</a></li>
+            <li><a href="#faq">Dúvidas Frequentes</a></li>
             <li><a href="#sobre">Sobre</a></li>
             <li><a href="#contato">Contato</a></li>
           </ul>
         </div>
 
+        <!-- COLUNA 4 -->
         <div class="footer-col">
           <h4>Contato</h4>
-          <p>Atendimento via WhatsApp</p>
+          <p>Atendimento direto via WhatsApp</p>
           <a
             href="https://wa.me/5599999999999"
             target="_blank"
-            class="footer-wpp"
+            class="footer-whatsapp"
+            aria-label="Falar com a UpClick no WhatsApp"
           >
             Falar no WhatsApp
           </a>
@@ -138,5 +250,7 @@
         <p>© 2026 UpClick. Todos os direitos reservados.</p>
       </div>
     </footer>
+
+    <script src="script.js"></script>
   </body>
 </html>
