@@ -1,71 +1,108 @@
-document.addEventListener("DOMContentLoaded", () => {
-  /* =========================
-     FAQ ACCORDION
-  ========================= */
-  const faqHeaders = document.querySelectorAll(".faq-header");
+// ====== PORTFÓLIO (FILTRO) ======
+const filterButtons = document.querySelectorAll(".filter");
+const works = document.querySelectorAll(".work");
 
-  faqHeaders.forEach((header) => {
-    header.addEventListener("click", () => {
-      const item = header.closest(".faq-item");
-      const isActive = item.classList.contains("active");
+filterButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    filterButtons.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
 
-      document.querySelectorAll(".faq-item").forEach((faq) => {
-        faq.classList.remove("active");
-        const btn = faq.querySelector(".faq-header");
-        if (btn) btn.setAttribute("aria-expanded", "false");
-      });
+    const filter = btn.dataset.filter;
 
-      if (!isActive) {
-        item.classList.add("active");
-        header.setAttribute("aria-expanded", "true");
-      }
+    works.forEach((work) => {
+      const cat = work.dataset.cat;
+      const show = filter === "all" || cat === filter;
+      work.style.display = show ? "block" : "none";
     });
   });
-
-  /* =========================
-     BOTÕES EMPRESA (WHATSAPP)
-  ========================= */
-  document.querySelectorAll(".btn-empresa").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const empresa = btn.dataset.empresa || "sua empresa";
-
-      const url = `https://wa.me/55995289436?text=${encodeURIComponent(
-        `Olá! Tenho interesse em saber mais sobre a solução para ${empresa}.`,
-      )}`;
-
-      window.open(url, "_blank");
-    });
-  });
-
-  /* =========================
-     FORMULÁRIO DE CONTATO
-  ========================= */
-  const formContato = document.querySelector(".contato-form");
-
-  if (formContato) {
-    formContato.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const nome = formContato.querySelector('input[name="nome"]')?.value || "";
-      const email =
-        formContato.querySelector('input[name="email"]')?.value || "";
-      const telefone =
-        formContato.querySelector('input[name="telefone"]')?.value || "";
-      const empresa =
-        formContato.querySelector('input[name="empresa"]')?.value || "";
-      const mensagem = formContato.querySelector("textarea")?.value || "";
-
-      const texto = `
-Olá! Meu nome é ${nome}.
-Telefone: ${telefone}
-Empresa: ${empresa}
-
-Mensagem:
-${mensagem}
-      `;
-
-      const url = `https://wa.me/55995289436?text=${encodeURIComponent(texto)}`;
-      window.open(url, "_blank");
-    });
-  }
 });
+
+// ====== FAQ (ACORDEÃO) ======
+const faqItems = document.querySelectorAll(".faq-item");
+faqItems.forEach((item) => {
+  const header = item.querySelector(".faq-header");
+  if (!header) return;
+
+  header.addEventListener("click", () => {
+    faqItems.forEach((i) => i !== item && i.classList.remove("active"));
+    item.classList.toggle("active");
+  });
+});
+
+// ====== TOAST (opcional, se você tiver no HTML) ======
+const toast = document.getElementById("toast");
+const toastMessage = document.getElementById("toastMessage");
+let toastTimer;
+
+function showToast(msg, type = "info") {
+  if (!toast || !toastMessage) return;
+  toastMessage.textContent = msg;
+  toast.className = `toast show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
+}
+
+// ====== FORM -> WHATSAPP ======
+const contactForm = document.getElementById("contactForm");
+const submitBtn = document.getElementById("submitBtn");
+
+// Seu número (sem espaços)
+const WHATSAPP_NUMBER = "5561995289436";
+
+function buildWhatsAppMessage(data) {
+  return [
+    "Olá! Quero fazer um site com a UpClickWeb.",
+    "",
+    `Nome: ${data.nome || "-"}`,
+    `Email: ${data.email || "-"}`,
+    `Telefone: ${data.telefone || "-"}`,
+    `Empresa: ${data.empresa || "-"}`,
+    "",
+    `Mensagem: ${data.mensagem || "-"}`,
+  ].join("\n");
+}
+
+if (contactForm) {
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const fd = new FormData(contactForm);
+
+    const data = {
+      nome: (fd.get("nome") || "").toString().trim(),
+      email: (fd.get("email") || "").toString().trim(),
+      telefone: (fd.get("telefone") || "").toString().trim(),
+      empresa: (fd.get("empresa") || "").toString().trim(),
+      mensagem: (fd.get("mensagem") || "").toString().trim(),
+    };
+
+    // validação básica
+    if (!data.nome || !data.email || !data.mensagem) {
+      showToast("Preencha nome, email e mensagem.", "error");
+      return;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "ABRINDO WHATSAPP...";
+    }
+
+    const text = encodeURIComponent(buildWhatsAppMessage(data));
+
+    // wa.me abre no WhatsApp Web / App
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+
+    // abre em nova aba
+    window.open(url, "_blank", "noopener");
+
+    showToast("WhatsApp aberto com sua mensagem ✅", "success");
+
+    // opcional: limpar o form
+    contactForm.reset();
+
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "ENVIAR NO WHATSAPP";
+    }
+  });
+}
