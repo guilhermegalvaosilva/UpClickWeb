@@ -51,7 +51,10 @@ const WHATSAPP_NUMBER = "5561995289436";
 
 function buildWhatsAppMessage(data) {
   return [
-    "Olá! Quero fazer um site com a UpClickWeb.",
+    `Olá! Quero fazer um site com a UpClickWeb. 🚀
+Tudo certo! Sua mensagem chegou até a gente.
+Em breve alguém da UpClickWeb vai entrar em contato com você.
+Obrigada por confiar no nosso trabalho 💙`,
     "",
     `Nome: ${data.nome || "-"}`,
     `Email: ${data.email || "-"}`,
