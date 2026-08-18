@@ -1,111 +1,77 @@
-// ====== PORTFÓLIO (FILTRO) ======
-const filterButtons = document.querySelectorAll(".filter");
-const works = document.querySelectorAll(".work");
-
-filterButtons.forEach((btn) => {
+const menu = document.querySelector(".menu"),
+  nav = document.querySelector("nav");
+menu?.addEventListener("click", () => {
+  const open = menu.getAttribute("aria-expanded") === "true";
+  menu.setAttribute("aria-expanded", String(!open));
+  nav.classList.toggle("open", !open);
+  document.body.classList.toggle("lock", !open);
+});
+nav?.querySelectorAll("a").forEach((a) =>
+  a.addEventListener("click", () => {
+    menu.setAttribute("aria-expanded", "false");
+    nav.classList.remove("open");
+    document.body.classList.remove("lock");
+  }),
+);
+document.querySelectorAll(".filter").forEach((btn) =>
   btn.addEventListener("click", () => {
-    filterButtons.forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    const filter = btn.dataset.filter;
-
-    works.forEach((work) => {
-      const cat = work.dataset.cat;
-      const show = filter === "all" || cat === filter;
-      work.style.display = show ? "block" : "none";
+    document.querySelectorAll(".filter").forEach((b) => {
+      b.classList.remove("active");
+      b.setAttribute("aria-pressed", "false");
     });
-  });
+    btn.classList.add("active");
+    btn.setAttribute("aria-pressed", "true");
+    document
+      .querySelectorAll(".work")
+      .forEach(
+        (w) =>
+          (w.hidden =
+            btn.dataset.filter !== "all" &&
+            w.dataset.cat !== btn.dataset.filter),
+      );
+  }),
+);
+document.querySelectorAll(".faqs button").forEach((btn) =>
+  btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    document.querySelectorAll(".faqs button").forEach((b) => {
+      b.setAttribute("aria-expanded", "false");
+      document.getElementById(b.getAttribute("aria-controls")).hidden = true;
+    });
+    if (!open) {
+      btn.setAttribute("aria-expanded", "true");
+      document.getElementById(btn.getAttribute("aria-controls")).hidden = false;
+    }
+  }),
+);
+const form = document.getElementById("contactForm"),
+  status = document.getElementById("formStatus"),
+  toast = document.getElementById("toast");
+form?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  if (!form.checkValidity()) {
+    status.textContent = "Preencha corretamente os campos obrigatórios.";
+    form.reportValidity();
+    return;
+  }
+  status.textContent = "";
+  const d = Object.fromEntries(new FormData(form).entries()),
+    message = [
+      `Olá! Quero conversar sobre um projeto com a UpClickWeb.`,
+      ``,
+      `Nome: ${d.nome}`,
+      `E-mail: ${d.email}`,
+      `Telefone: ${d.telefone || "-"}`,
+      `Empresa: ${d.empresa || "-"}`,
+      ``,
+      `Projeto: ${d.mensagem}`,
+    ].join("\n");
+  window.open(
+    `https://wa.me/5561995289436?text=${encodeURIComponent(message)}`,
+    "_blank",
+    "noopener",
+  );
+  toast.textContent = "WhatsApp aberto com a mensagem pronta para confirmar.";
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 3500);
 });
-
-// ====== FAQ (ACORDEÃO) ======
-const faqItems = document.querySelectorAll(".faq-item");
-faqItems.forEach((item) => {
-  const header = item.querySelector(".faq-header");
-  if (!header) return;
-
-  header.addEventListener("click", () => {
-    faqItems.forEach((i) => i !== item && i.classList.remove("active"));
-    item.classList.toggle("active");
-  });
-});
-
-// ====== TOAST (opcional, se você tiver no HTML) ======
-const toast = document.getElementById("toast");
-const toastMessage = document.getElementById("toastMessage");
-let toastTimer;
-
-function showToast(msg, type = "info") {
-  if (!toast || !toastMessage) return;
-  toastMessage.textContent = msg;
-  toast.className = `toast show ${type}`;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 3500);
-}
-
-// ====== FORM -> WHATSAPP ======
-const contactForm = document.getElementById("contactForm");
-const submitBtn = document.getElementById("submitBtn");
-
-// Seu número (sem espaços)
-const WHATSAPP_NUMBER = "5561995289436";
-
-function buildWhatsAppMessage(data) {
-  return [
-    `Olá! Quero fazer um site com a UpClickWeb. 🚀
-Tudo certo! Sua mensagem chegou até a gente.
-Em breve alguém da UpClickWeb vai entrar em contato com você.
-Obrigada por confiar no nosso trabalho 💙`,
-    "",
-    `Nome: ${data.nome || "-"}`,
-    `Email: ${data.email || "-"}`,
-    `Telefone: ${data.telefone || "-"}`,
-    `Empresa: ${data.empresa || "-"}`,
-    "",
-    `Mensagem: ${data.mensagem || "-"}`,
-  ].join("\n");
-}
-
-if (contactForm) {
-  contactForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const fd = new FormData(contactForm);
-
-    const data = {
-      nome: (fd.get("nome") || "").toString().trim(),
-      email: (fd.get("email") || "").toString().trim(),
-      telefone: (fd.get("telefone") || "").toString().trim(),
-      empresa: (fd.get("empresa") || "").toString().trim(),
-      mensagem: (fd.get("mensagem") || "").toString().trim(),
-    };
-
-    // validação básica
-    if (!data.nome || !data.email || !data.mensagem) {
-      showToast("Preencha nome, email e mensagem.", "error");
-      return;
-    }
-
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = "ABRINDO WHATSAPP...";
-    }
-
-    const text = encodeURIComponent(buildWhatsAppMessage(data));
-
-    // wa.me abre no WhatsApp Web / App
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
-
-    // abre em nova aba
-    window.open(url, "_blank", "noopener");
-
-    showToast("WhatsApp aberto com sua mensagem ✅", "success");
-
-    // opcional: limpar o form
-    contactForm.reset();
-
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "ENVIAR NO WHATSAPP";
-    }
-  });
-}
